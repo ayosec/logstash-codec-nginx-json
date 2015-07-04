@@ -4,9 +4,9 @@ require "logstash/event"
 require "logstash/json"
 require "insist"
 
-describe LogStash::Codecs::JSON do
+describe LogStash::Codecs::JSONNginx do
   subject do
-    next LogStash::Codecs::JSON.new
+    next LogStash::Codecs::JSONNginx.new
   end
 
   context "#decode" do

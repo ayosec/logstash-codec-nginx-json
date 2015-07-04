@@ -20,6 +20,14 @@ describe LogStash::Codecs::JSON do
       end
     end
 
+    it "should parse escape characters from Nginx configuration files" do
+      data = %q[{"foo": "\x22aaa\x0a\x0Abbb\x22"}]
+      subject.decode(data) do |event|
+        insist { event.is_a? LogStash::Event }
+        insist { event["foo"] } == %["aaa\n\nbbb"]
+      end
+    end
+
     it "should be fast", :performance => true do
       json = '{"message":"Hello world!","@timestamp":"2013-12-21T07:01:25.616Z","@version":"1","host":"Macintosh.local","sequence":1572456}'
       iterations = 500000

@@ -35,7 +35,7 @@ class LogStash::Codecs::JSON < LogStash::Codecs::Base
 
   public
   def decode(data)
-    data = @converter.convert(data)
+    data = @converter.convert(data.gsub('\x', '\u00'))
     begin
       yield LogStash::Event.new(LogStash::Json.load(data))
     rescue LogStash::Json::ParserError => e
